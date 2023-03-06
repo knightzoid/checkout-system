@@ -98,6 +98,7 @@ const DeliveryPage = () => {
     setIsDropshipper(e.target.checked);
   };
 
+  const idDropshipper = register("idDropshipper");
   return (
     <Wrapper>
       <Container>
@@ -157,9 +158,11 @@ const DeliveryPage = () => {
             <CheckboxWrapper>
               <input
                 type="checkbox"
-                checked={isDropshipper}
-                onChange={handleCheckboxChange}
-                {...register("isDropshipper")}
+                {...idDropshipper}
+                onChange={(e) => {
+                  idDropshipper.onChange(e);
+                  handleCheckboxChange(e);
+                }}
               />
               <CheckboxLabel>Send as Dropshipper</CheckboxLabel>
             </CheckboxWrapper>
