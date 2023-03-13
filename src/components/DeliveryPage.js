@@ -8,30 +8,39 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #fffae6;
 `;
 
+const FormDivideWrapper = styled.div`
+  display: grid;
+  float: left;
+  width: 45%;
+  margin-right: 10px;
+`;
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 800px;
-  height: 500px;
-  background-color: #f5f5f5;
+  width: 1100px;
+  background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 50px;
+  padding: 40px;
 `;
 
 const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 70%;
   padding: 20px;
 `;
 
 const SummaryWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 30%;
   padding: 20px;
+  border-left: 1px solid #ff8a00;
 `;
 
 const InputWrapper = styled.div`
@@ -40,20 +49,34 @@ const InputWrapper = styled.div`
   margin-bottom: 20px;
 `;
 
-const Label = styled.label`
-  margin-bottom: 5px;
+const Title = styled.h2`
+  color: #ff8a00;
+`;
+
+const Label = styled.div`
+  font-size: 14px;
+  text-align: justify;
+`;
+
+const LabelSpan = styled.span`
+  float: right;
+  font-weight: bold;
 `;
 
 const Input = styled.input`
   padding: 10px;
   border: 1px solid ${(props) => (props.isValid ? "green" : "red")};
-  border-radius: 5px;
 `;
 
 const TextArea = styled.textarea`
   padding: 10px;
   border: 1px solid ${(props) => (props.isValid ? "green" : "red")};
-  border-radius: 5px;
+`;
+
+const SpanSmallText = styled.span`
+  font-size: 10px;
+  color: red;
+  margin-top: 3px;
 `;
 
 const Counter = styled.span`
@@ -72,12 +95,20 @@ const CheckboxLabel = styled.label`
   margin-left: 5px;
 `;
 
+const TotalFeeSpan = styled.div`
+  margin-top: 70%;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff8a00;
+`;
+
 const Button = styled.button`
+  display: block;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #ff8a00;
   color: #fff;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
 `;
 
@@ -103,85 +134,91 @@ const DeliveryPage = () => {
     <Wrapper>
       <Container>
         <FormWrapper>
-          <h2>Delivery Details</h2>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <InputWrapper>
-              <Label>Email</Label>
-              <Input
-                type="email"
-                {...register("email", {
-                  required: true,
-                  pattern: /^\S+@\S+$/i
-                })}
-                isValid={errors.email ? false : true}
-              />
-              {errors.email && <span>Email is required and must be valid</span>}
-            </InputWrapper>
-            <InputWrapper>
-              <Label>Phone Number</Label>
-              <Input
-                type="tel"
-                {...register("phoneNumber", {
-                  required: true,
-                  pattern: /^[0-9()+-]{6,20}$/i
-                })}
-                isValid={errors.phoneNumber ? false : true}
-              />
-              {errors.phoneNumber && (
-                <span>
-                  Phone number is required and must be valid (0-9,-,+,(,), min 6
-                  digits and max 20 digits)
-                </span>
-              )}
-            </InputWrapper>
-            <InputWrapper>
-              <Label>Delivery Address</Label>
-              <TextArea
-                {...register("deliveryAddress", {
-                  required: true,
-                  maxLength: 120
-                })}
-                isValid={errors.deliveryAddress ? false : true}
-              />
-              <Counter>
-                {watch("deliveryAddress")
-                  ? watch("deliveryAddress").length
-                  : ""}
-              </Counter>
-              {errors.deliveryAddress && (
-                <span>
-                  Delivery address is required and must be less than or equal to
-                  120 characters
-                </span>
-              )}
-            </InputWrapper>
-            <CheckboxWrapper>
-              <input
-                type="checkbox"
-                {...idDropshipper}
-                onChange={(e) => {
-                  idDropshipper.onChange(e);
-                  handleCheckboxChange(e);
-                }}
-              />
-              <CheckboxLabel>Send as Dropshipper</CheckboxLabel>
-            </CheckboxWrapper>
+          <Title>Delivery Details</Title>
+          <form id="shipment" onSubmit={handleSubmit(onSubmit)}>
+            <FormDivideWrapper>
+              <InputWrapper>
+                <Input
+                  type="email"
+                  {...register("email", {
+                    required: true,
+                    pattern: /^\S+@\S+$/i
+                  })}
+                  placeholder="Email"
+                  isValid={errors.email ? false : true}
+                />
+                {errors.email && (
+                  <SpanSmallText>
+                    Email is required and must be valid
+                  </SpanSmallText>
+                )}
+              </InputWrapper>
+              <InputWrapper>
+                <Input
+                  type="tel"
+                  {...register("phoneNumber", {
+                    required: true,
+                    pattern: /^[0-9()+-]{6,20}$/i
+                  })}
+                  placeholder="Phone Number"
+                  isValid={errors.phoneNumber ? false : true}
+                />
+                {errors.phoneNumber && (
+                  <SpanSmallText>
+                    Phone number is required and must be valid (0-9,-,+,(,), min
+                    6 digits and max 20 digits)
+                  </SpanSmallText>
+                )}
+              </InputWrapper>
+              <InputWrapper>
+                <TextArea
+                  {...register("deliveryAddress", {
+                    required: true,
+                    maxLength: 120
+                  })}
+                  placeholder="Delivery Address"
+                  isValid={errors.deliveryAddress ? false : true}
+                />
+                <Counter>
+                  {watch("deliveryAddress")
+                    ? watch("deliveryAddress").length
+                    : ""}
+                </Counter>
+                {errors.deliveryAddress && (
+                  <SpanSmallText>
+                    Delivery address is required and must be less than or equal
+                    to 120 characters
+                  </SpanSmallText>
+                )}
+              </InputWrapper>
+              <CheckboxWrapper>
+                <input
+                  type="checkbox"
+                  {...idDropshipper}
+                  onChange={(e) => {
+                    idDropshipper.onChange(e);
+                    handleCheckboxChange(e);
+                  }}
+                />
+                <CheckboxLabel>Send as Dropshipper</CheckboxLabel>
+              </CheckboxWrapper>
+            </FormDivideWrapper>
             {isDropshipper && (
-              <>
+              <FormDivideWrapper>
                 <InputWrapper>
-                  <Label>Dropshipper Name</Label>
                   <Input
                     {...register("dropshipperName", { required: true })}
+                    placeholder="Dropshipper Name"
                     isValid={errors.dropshipperName ? false : true}
                   />
                   {errors.dropshipperName && (
-                    <span>Dropshipper name is required</span>
+                    <SpanSmallText>Dropshipper name is required</SpanSmallText>
                   )}
                 </InputWrapper>
                 <InputWrapper>
-                  <Label>Dropshipper Phone Number</Label>
                   <Input
                     type="tel"
+                    placeholder="Delivery Phone Number"
                     {...register("dropshipperPhoneNumber", {
                       required: true,
                       pattern: /^[0-9()+-]{6,20}$/i
@@ -189,23 +226,42 @@ const DeliveryPage = () => {
                     isValid={errors.dropshipperPhoneNumber ? false : true}
                   />
                   {errors.dropshipperPhoneNumber && (
-                    <span>
+                    <SpanSmallText>
                       Dropshipper phone number is required and must be valid
                       (0-9,-,+,(,), min 6 digits and max 20 digits)
-                    </span>
+                    </SpanSmallText>
                   )}
                 </InputWrapper>
-              </>
+              </FormDivideWrapper>
             )}
-            <Button type="submit">Continue to Payment</Button>
           </form>
         </FormWrapper>
         <SummaryWrapper>
-          <h2>Summary</h2>
+          <Title>Summary</Title>
           <div>
-            <div>Cost of Goods: 50,000</div>
-            {isDropshipper && <div>Dropshipper Fee: 5,900</div>}
+            <div>
+              <Label>
+                Cost of Goods: <LabelSpan>500,000</LabelSpan>
+              </Label>
+              {isDropshipper && (
+                <Label>
+                  Dropshipper Fee: <LabelSpan>5,900</LabelSpan>
+                </Label>
+              )}
+            </div>
+            {isDropshipper ? (
+              <TotalFeeSpan>
+                Total Fee: <LabelSpan>505,900</LabelSpan>
+              </TotalFeeSpan>
+            ) : (
+              <TotalFeeSpan>
+                Total Fee: <LabelSpan>500,000</LabelSpan>
+              </TotalFeeSpan>
+            )}
           </div>
+          <Button form="shipment" type="submit">
+            Continue to Payment
+          </Button>
         </SummaryWrapper>
       </Container>
     </Wrapper>
