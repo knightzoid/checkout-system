@@ -5,7 +5,8 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 100vh;
+  background-color: #fffae6;
 `;
 
 const Container = styled.div`
@@ -13,6 +14,12 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 1100px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 50px;
+  padding: 40px;
 `;
 
 const Heading = styled.h2`
@@ -46,11 +53,11 @@ const ThankYouPage = () => {
         <OrderSummary>
           <SummaryItem>
             <span>Cost of goods</span>
-            <span>50,000</span>
+            <span>500,000</span>
           </SummaryItem>
           {orderDetails?.sendAsDropshipper ? (
             <SummaryItem>
-              <span>Dropshipper fee</span>
+              <span>Dropshipper fee </span>
               <span>5,900</span>
             </SummaryItem>
           ) : (
